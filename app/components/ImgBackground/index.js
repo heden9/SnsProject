@@ -1,10 +1,10 @@
-import React,{ Component } from 'react';
+import React from 'react';
 import {
     View,
     Image,
     StyleSheet
 } from 'react-native';
-export default class ImgBackground extends Component{
+export default class ImgBackground extends React.PureComponent{
     render(){
         return(
             <Image source={{uri:this.props.url}} style={style.container} resizeMethod={'scale'}>

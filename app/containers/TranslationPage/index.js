@@ -1,25 +1,41 @@
-import React, { Component } from 'react';
+import React from 'react';
 import {
     StyleSheet,
     Text,
     View,
-    TextInput
+    Platform
 } from 'react-native';
+import TranslateHeader from '../../components/TranslateHeader';
+import InputArea from '../../components/InputArea';
+import ResultArea from '../../components/ResultArea';
 export default class TranslationPage extends React.PureComponent{
+    constructor(props, context){
+        super(props, context);
+        this.state = {
+            areaValue: '',
+            result: '123'
+        };
+    }
+    changeHandle = (text) => {
+        this.setState({
+            areaValue: text
+        });
+    };
+    submitHandle = () => {
+        this.setState({
+            result: this.state.areaValue
+        });
+    };
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.welcome}>
-                    Welcome to React Native!
-                </Text>
-                <Text style={styles.instructions}>
-                    To get started, edit index.ios.js
-                </Text>
-                <Text style={styles.instructions}>
-                    Press Cmd+R to reload,{'\n'}
-                    Cmd+D or shake for dev menu
-                </Text>
-                <TextInput/>
+                <TranslateHeader/>
+                <InputArea
+                    areaValue={this.state.areaValue}
+                    submitHandle={this.submitHandle}
+                    clearHandle={()=>this.setState({areaValue: '' })}
+                    changeHandle={this.changeHandle}/>
+                <ResultArea result={this.state.result}/>
             </View>
         );
     }
@@ -28,19 +44,9 @@ export default class TranslationPage extends React.PureComponent{
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        justifyContent: 'center',
+        flexDirection: 'column',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF',
-    },
-    welcome: {
-        fontSize: 20,
-        textAlign: 'center',
-        margin: 10,
-    },
-    instructions: {
-        textAlign: 'center',
-        color: '#333333',
-        marginBottom: 5,
+        backgroundColor: 'rgb(247,247,247)',
     },
 });
 

@@ -12,7 +12,7 @@ import Sep from '../../components/Separated';
 export default class PersonPage extends React.PureComponent{
     render() {
         return (
-            <View style={styles.back}>
+            <ScrollView style={styles.back}>
                 <LoginComponent/>
                 <View>
                     <PersonBtn iconName={'bubbles'} title={'消息中心'} badge={1}/>
@@ -22,7 +22,7 @@ export default class PersonPage extends React.PureComponent{
                     <Sep/>
                     <PersonBtn iconName={'settings'} title={'设置'} />
                 </View>
-            </View>
+            </ScrollView>
         );
     }
 }

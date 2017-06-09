@@ -2,29 +2,57 @@ import React, { Component } from 'react';
 import {
     View,
     Text,
-    StyleSheet
+    StyleSheet,
+    Platform,
+    Dimensions,
+    LayoutAnimation,
+    UIManager
 } from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 import Icon from 'react-native-vector-icons/FontAwesome';
 import TranslationPage from '../containers/TranslationPage';
 import PersonPage from '../containers/PersonPage';
+import Moments from '../containers/Moments';
 export default class Router extends React.PureComponent{
     constructor(props, context){
         super(props, context);
         this.state = {
-            selectedTab: 'TranslationPage'
+            selectedTab: 'TranslationPage',
+            tabBarHeight: 50
         };
     }
+    componentDidMount(){
+        if (Platform.OS === 'android') {
+            UIManager.setLayoutAnimationEnabledExperimental(true)
+        }
+    }
+    selectHandle(PageName){
+        const CustomAnimation = {
+            duration: 400,
+            update: {
+                type: LayoutAnimation.Types.spring,
+                property: LayoutAnimation.Properties.scaleXY,
+                springDamping: .6
+            }
+        };
+        LayoutAnimation.configureNext(CustomAnimation);
+        this.setState({
+            selectedTab: PageName ,
+            //tabBarHeight: 50
+        });
+    };
     render(){
         return(
-            <TabNavigator>
+            <TabNavigator
+                tabBarStyle={[{ height: this.state.tabBarHeight},style.tabBarStyle]}
+                sceneStyle={{ paddingBottom: this.state.tabBarHeight }}>
                 <TabNavigator.Item
                     selected={this.state.selectedTab === 'TranslationPage'}
                     title="翻译"
                     renderIcon={()=><Icon name="address-book" size={21} color="grey" />}
                     renderSelectedIcon={() => <Icon name="address-book-o" size={24} color='#42b5fb' />}
                     selectedTitleStyle={style.selectedTitleStyle}
-                    onPress={() => this.setState({ selectedTab: 'TranslationPage' })}>
+                    onPress={() => this.selectHandle('TranslationPage')}>
                     { <TranslationPage/> }
                 </TabNavigator.Item>
                 <TabNavigator.Item
@@ -33,8 +61,8 @@ export default class Router extends React.PureComponent{
                     renderIcon={()=><Icon name="dot-circle-o" size={21} color="grey" />}
                     renderSelectedIcon={() => <Icon name="compass" size={24} color='#42b5fb' />}
                     selectedTitleStyle={style.selectedTitleStyle}
-                    onPress={() => this.setState({ selectedTab: 'Moments' })}>
-                    { <TranslationPage/> }
+                    onPress={() => this.selectHandle('Moments')}>
+                    { <Moments/> }
                 </TabNavigator.Item>
                 <TabNavigator.Item
                     selected={this.state.selectedTab === 'PersonPage'}
@@ -42,7 +70,7 @@ export default class Router extends React.PureComponent{
                     renderIcon={()=><Icon name="user-o" size={21} color="grey" />}
                     renderSelectedIcon={() => <Icon name="user" size={25} color='#42b5fb' />}
                     selectedTitleStyle={style.selectedTitleStyle}
-                    onPress={() => this.setState({ selectedTab: 'PersonPage' })}>
+                    onPress={() => this.selectHandle('PersonPage')}>
                     { <PersonPage/>}
                 </TabNavigator.Item>
             </TabNavigator>
@@ -51,7 +79,14 @@ export default class Router extends React.PureComponent{
 }
 
 const style = StyleSheet.create({
+    tabBarStyle: {
+        overflow: 'hidden' ,
+        paddingBottom: 3,
+        borderTopWidth:1,
+        borderColor: '#eee'
+    },
     selectedColor: {
         color: '#42b5fb',
     }
 });
+global.WindowInfo = { height, width } = Dimensions.get('window');
