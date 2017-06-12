@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import TranslationPage from '../containers/TranslationPage';
+import TranslationNav from '../containers/TranslationPage/nav';
 import PersonPage from '../containers/PersonPage';
 import Moments from '../containers/Moments';
 export default class Router extends React.PureComponent{
@@ -53,7 +53,7 @@ export default class Router extends React.PureComponent{
                     renderSelectedIcon={() => <Icon name="address-book-o" size={24} color='#42b5fb' />}
                     selectedTitleStyle={style.selectedTitleStyle}
                     onPress={() => this.selectHandle('TranslationPage')}>
-                    { <TranslationPage/> }
+                    { <TranslationNav/> }
                 </TabNavigator.Item>
                 <TabNavigator.Item
                     selected={this.state.selectedTab === 'Moments'}

@@ -5,15 +5,12 @@ import {
     View
 } from 'react-native';
 
-export default class PersonPage extends React.PureComponent{
-
-    render(){
-        return(
-            <View style={styles.badge}>
-                <Text style={{color: 'white',fontSize:10,textAlign:'center',lineHeight: 14,fontWeight: 'bold'}}>{this.props.num || (this.props.num > 99 ? '99+' : this.props.num)}</Text>
-            </View>
-        );
-    }
+export default function Badge(props){
+    return(
+        <View style={styles.badge}>
+            <Text style={{color: 'white',fontSize:10,textAlign:'center',lineHeight: 14,fontWeight: 'bold'}}>{props.num || (props.num > 99 ? '99+' : props.num)}</Text>
+        </View>
+    );
 }
 
 const styles = StyleSheet.create({
