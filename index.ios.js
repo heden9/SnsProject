@@ -7,6 +7,6 @@
 import {
     AppRegistry
 } from 'react-native';
-import Router from './app/router/routerMap';
+import SSNav from './app/containers/Navigation';
 
-AppRegistry.registerComponent('SnsProject', () => Router);
+AppRegistry.registerComponent('SnsProject', () => SSNav);

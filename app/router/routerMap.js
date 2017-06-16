@@ -10,21 +10,25 @@ import {
 } from 'react-native';
 import TabNavigator from 'react-native-tab-navigator';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import TranslationNav from '../containers/TranslationPage/nav';
-import PersonPage from '../containers/PersonPage';
+import TranslationPage from '../containers/TranslationPage/homepage';
+import PersonPage from '../containers/PersonPage/home';
 import Moments from '../containers/Moments';
+import Storage from '../storage';
+import UserInfo from '../mobx/store';
+import { observer } from 'mobx-react';
+@observer
 export default class Router extends React.PureComponent{
     constructor(props, context){
         super(props, context);
         this.state = {
-            selectedTab: 'TranslationPage',
-            tabBarHeight: 50
+            selectedTab: 'PersonPage'
         };
     }
     componentDidMount(){
         if (Platform.OS === 'android') {
             UIManager.setLayoutAnimationEnabledExperimental(true)
         }
+        UserInfo.loadLocalInfo();
     }
     selectHandle(PageName){
         const CustomAnimation = {
@@ -37,15 +41,14 @@ export default class Router extends React.PureComponent{
         };
         LayoutAnimation.configureNext(CustomAnimation);
         this.setState({
-            selectedTab: PageName ,
-            //tabBarHeight: 50
+            selectedTab: PageName
         });
     };
     render(){
         return(
             <TabNavigator
-                tabBarStyle={[{ height: this.state.tabBarHeight},style.tabBarStyle]}
-                sceneStyle={{ paddingBottom: this.state.tabBarHeight }}>
+                tabBarStyle={[{ height: UserInfo.TabHeight},style.tabBarStyle]}
+                sceneStyle={{ paddingBottom: UserInfo.TabHeight }}>
                 <TabNavigator.Item
                     selected={this.state.selectedTab === 'TranslationPage'}
                     title="翻译"
@@ -53,7 +56,7 @@ export default class Router extends React.PureComponent{
                     renderSelectedIcon={() => <Icon name="address-book-o" size={24} color='#42b5fb' />}
                     selectedTitleStyle={style.selectedTitleStyle}
                     onPress={() => this.selectHandle('TranslationPage')}>
-                    { <TranslationNav/> }
+                    { <TranslationPage {...this.props}/> }
                 </TabNavigator.Item>
                 <TabNavigator.Item
                     selected={this.state.selectedTab === 'Moments'}
@@ -71,7 +74,7 @@ export default class Router extends React.PureComponent{
                     renderSelectedIcon={() => <Icon name="user" size={25} color='#42b5fb' />}
                     selectedTitleStyle={style.selectedTitleStyle}
                     onPress={() => this.selectHandle('PersonPage')}>
-                    { <PersonPage/>}
+                    { <PersonPage {...this.props}/>}
                 </TabNavigator.Item>
             </TabNavigator>
         );
@@ -90,3 +93,4 @@ const style = StyleSheet.create({
     }
 });
 global.WindowInfo = { height, width } = Dimensions.get('window');
+global.STORAGE = Storage;

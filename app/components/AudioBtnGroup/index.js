@@ -8,20 +8,39 @@ import {
 import Video from 'react-native-video';
 import ImgBtn from '../ImgBtn';
 import happy from '../../static/img/happy.png';
+import shutUp from '../../static/img/shutUp.png';
 export default class AudioBtnGroup extends React.PureComponent{
     constructor(props, context){
         super(props, context);
         this.state = {
             rate: 0,
-            isPaused: true
+            isPaused: true,
+            isLoading: false,
+            mute: true,
+            volume: 0
         };
+    }
+    componentWillReceiveProps(){
+        this.setState({
+            rate: 0,
+            isPaused: true,
+            mute: true,
+            volume: 0
+        })
     }
     singHandle = () => {
         this.setState({
             rate: 1,
-            isPaused: false
+            isPaused: false,
+            mute: false,
+            volume: 1
         });
         this.refs.video && this.refs.video.seek(0);
+    };
+    loadSuccess = () => {
+        this.setState({
+            isLoading: true
+        })
     };
     _iosVideo = () => {
         return (
@@ -32,6 +51,8 @@ export default class AudioBtnGroup extends React.PureComponent{
                 volume={1.0}
                 paused={false}
                 repeat={false}
+                onLoad={this.loadSuccess}
+                onError={()=>console.log('load error!')}
             />
         );
     };
@@ -40,7 +61,8 @@ export default class AudioBtnGroup extends React.PureComponent{
             <Video
                 source={{ uri: this.props.speakUrl }}
                 rate={1.0}
-                volume={1.0}
+                volume={this.state.volume}
+                mute={this.state.mute}
                 paused={this.state.isPaused}
                 repeat={false}
                 onEnd={()=>{
@@ -48,6 +70,7 @@ export default class AudioBtnGroup extends React.PureComponent{
                         isPaused: true
                     })
                 }}
+                onLoad={this.loadSuccess}
             />
         );
     };
@@ -60,16 +83,14 @@ export default class AudioBtnGroup extends React.PureComponent{
     };
     render(){
         return(
-            <View style={{}}>
-                <ImgBtn url={happy} onPress={this.singHandle}/>
+            <View>
                 {
-                   this.renderVideo()
+                    this.state.isLoading?
+                        <ImgBtn url={happy} onPress={this.singHandle}/>
+                        :<ImgBtn url={shutUp}/>
                 }
+                {this.renderVideo()}
             </View>
         );
     }
 }
-
-const styles = StyleSheet.create({
-
-});

@@ -15,7 +15,8 @@ export default TranslateNav = StackNavigator({
             title: '中英互译',
             headerTintColor: 'white',
             headerStyle: {
-                backgroundColor: '#42b5fb'
+                backgroundColor: '#42b5fb',
+                height: 55
             },
             headerTitleStyle: {
                 fontWeight: '400',
@@ -31,7 +32,8 @@ export default TranslateNav = StackNavigator({
             title: '语音翻译',
             headerTintColor: 'white',
             headerStyle: {
-                backgroundColor: '#42b5fb'
+                backgroundColor: '#42b5fb',
+                height: 55
             },
             headerTitleStyle: {
                 fontWeight: '400',

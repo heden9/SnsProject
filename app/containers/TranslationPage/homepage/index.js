@@ -1,13 +1,17 @@
 import React from 'react';
 import {
     StyleSheet,
-    View
+    View,
+    Text
 } from 'react-native';
 import { getTranslate } from '../../../fetch/Translate/translate';
 import InputArea from '../../../components/InputArea';
-import ResultArea from '../../../components/ResultArea';
+import ResultArea from './ResultArea';
 import Sep from '../../../components/Separated';
-
+import UserInfo from '../../../mobx/store';
+import { observer } from 'mobx-react';
+import TranHeader from '../../../components/TranslateHeader';
+@observer
 export default class TranslationPage extends React.PureComponent{
     constructor(props, context){
         super(props, context);
@@ -36,24 +40,30 @@ export default class TranslationPage extends React.PureComponent{
         result
             .then((res)=>res.json())
             .then((json)=>{
+                console.log(json);
                 const data = json;
-                console.log(data);
                 this.setState({
                     result: data,
                     isLoading: false
                 });
             })
             .catch((err)=>{
-                console.log(err);
+                console.warn(err);
             });
     };
     singHandle = () => {
         const {navigate} = this.props.navigation;
         navigate('subpage1');
     };
+    collectHandle = () => {
+        const obj = this.state.result;
+        const flag = !UserInfo.localMyCollect.get(this.state.result.query);
+        UserInfo.changeCollect(obj,flag);
+    };
     render() {
         return (
             <View style={styles.container}>
+                <TranHeader />
                 <InputArea
                     areaValue={this.state.areaValue}
                     submitHandle={this.submitHandle}
@@ -61,7 +71,7 @@ export default class TranslationPage extends React.PureComponent{
                     singHandle={this.singHandle}
                     changeHandle={this.changeHandle}/>
                 <Sep/>
-                <ResultArea result={this.state.result} isLoading={this.state.isLoading}/>
+                <ResultArea result={this.state.result} isLoading={this.state.isLoading} collectHandle={this.collectHandle} isCollected={!!UserInfo.localMyCollect.get(this.state.result.query)} />
             </View>
         );
     }

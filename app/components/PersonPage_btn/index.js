@@ -10,7 +10,7 @@ import Badge from '../Badge';
 export default class PersonPage extends React.PureComponent{
     render() {
         return (
-            <TouchableHighlight onPress={()=>{}} underlayColor={'#eee'} style={styles.btnContainer}>
+            <TouchableHighlight onPress={this.props.onPress} underlayColor={'#eee'} style={styles.btnContainer}>
                 <View style={{flexDirection: 'row'}}>
                     <Icon name={this.props.iconName} size={15} color={'grey'} style={{marginLeft: 10}}/>
                     <Text style={{marginLeft: 10,flex: 1}}>{this.props.title}</Text>
