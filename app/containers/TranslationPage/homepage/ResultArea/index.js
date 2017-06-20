@@ -4,7 +4,6 @@ import {
     Text
 } from 'react-native';
 import WordItem from '../../../../components/WordItem';
-import UserInfo from '../../../../mobx/store';
 import { observer } from 'mobx-react';
 @observer
 export default class ResultArea extends React.PureComponent{
@@ -12,7 +11,7 @@ export default class ResultArea extends React.PureComponent{
         const result = this.props.result;
         if(result && result.errorCode != 0){
             err = '出错了';
-        }else if(!result){
+        }else if(!result && !this.props.isLoading){
             err = '';
         }else{
             err = 'LOADING..';

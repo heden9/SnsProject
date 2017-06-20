@@ -2,10 +2,16 @@ import React from 'react';
 import {
     StyleSheet,
     Text,
-    View
+    View,
+    Platform
 } from 'react-native';
 export default class TranslateHeader extends React.PureComponent{
+    shouldComponentUpdate(){
+        return false;
+    }
     render() {
+        // if(Platform.OS === 'android')
+        //     height:
         return (
             <View style={[styles.container,{width: WindowInfo.width}]}>
                 <Text style={{color: 'white',fontSize: 15}}>中英互译</Text>
@@ -21,7 +27,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         backgroundColor: '#42b5fb',
         paddingTop: 15,
-        height: 50
+        height: 65
     }
 });
 

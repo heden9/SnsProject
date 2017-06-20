@@ -13,7 +13,8 @@ export default class Collection extends React.PureComponent{
     constructor(props, context){
         super(props, context);
         this.state = {
-            data: []
+            data: [],
+            isLoading: true
         };
     }
     collectHandle = (data) => {
@@ -25,23 +26,32 @@ export default class Collection extends React.PureComponent{
     componentDidMount(){
         InteractionManager.runAfterInteractions(() => {
             this.setState({
-                data: UserInfo.localMyCollect.values()
+                data: UserInfo.localMyCollect.values(),
+                isLoading: false
             })
         });
     }
     render() {
         return (
             <View style={styles.container}>
+                <Text>
+                    {
+                        !this.state.isLoading && this.state.data.length == 0 ?
+                            '您暂无收藏哦'
+                            :null
+                    }
+                </Text>
                 {
-                    this.state.data.length == 0 ?
+                    this.state.isLoading ?
                         <Text>Loading...</Text>:
                         <FlatList
                             data={this.state.data.reverse()}
                             ItemSeparatorComponent={()=><Sep height={5}/>}
                             extraData={this.state}
-                            keyExtractor={(item, index) => index}
+                            ListFooterComponent={()=><Sep height={50}/>}
+                            keyExtractor={(item, index) => item.query}
                             renderItem={({item,index}) =>
-                                <WordItem result={item} isCollected={!!item.isCollected} collectHandle={this.collectHandle}/>
+                                <WordItem result={item} isCollected={!!item.isCollected} collectHandle={this.collectHandle} Audio={true}/>
                             }
                         />
                 }

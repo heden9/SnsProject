@@ -21,6 +21,7 @@ export default SSNav = StackNavigator({
         screen: Router,
         navigationOptions: {
             headerStyle: {
+                elevation: 0,
                 backgroundColor: 'transparent',
                 marginTop: -20,
                 height: 0
@@ -35,12 +36,11 @@ export default SSNav = StackNavigator({
             title: '登录',
             // headerTintColor: 'black',
             headerStyle: {
-                // backgroundColor: '#42b5fb',
+                elevation: 1,
                 height: 55
             },
             headerTitleStyle: {
-                fontWeight: '400',
-                alignSelf:'center'
+                fontWeight: '400'
             },
             gesturesEnabled: false,
         }
@@ -51,12 +51,12 @@ export default SSNav = StackNavigator({
             title: '消息中心',
             headerTintColor: 'white',
             headerStyle: {
+                elevation: 1,
                 backgroundColor: '#42b5fb',
                 height: 55
             },
             headerTitleStyle: {
-                fontWeight: '400',
-                alignSelf:'center'
+                fontWeight: '400'
             },
             gesturesEnabled: false,
         }
@@ -67,12 +67,12 @@ export default SSNav = StackNavigator({
             title: '我的收藏',
             headerTintColor: 'white',
             headerStyle: {
+                elevation: 1,
                 backgroundColor: '#42b5fb',
                 height: 55
             },
             headerTitleStyle: {
                 fontWeight: '400',
-                alignSelf:'center'
             },
             gesturesEnabled: false,
         }

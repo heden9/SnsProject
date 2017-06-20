@@ -9,87 +9,69 @@ import Video from 'react-native-video';
 import ImgBtn from '../ImgBtn';
 import happy from '../../static/img/happy.png';
 import shutUp from '../../static/img/shutUp.png';
+import loading from '../../static/img/loading.png';
 export default class AudioBtnGroup extends React.PureComponent{
     constructor(props, context){
         super(props, context);
         this.state = {
-            rate: 0,
-            isPaused: true,
-            isLoading: false,
-            mute: true,
-            volume: 0
+            loadState: 1,
+            click: false
         };
-    }
-    componentWillReceiveProps(){
-        this.setState({
-            rate: 0,
-            isPaused: true,
-            mute: true,
-            volume: 0
-        })
     }
     singHandle = () => {
         this.setState({
-            rate: 1,
-            isPaused: false,
-            mute: false,
-            volume: 1
+            loadState: 2,
+            click: true
         });
-        this.refs.video && this.refs.video.seek(0);
     };
-    loadSuccess = () => {
+    //播放结束
+    loadFinished = () => {
         this.setState({
-            isLoading: true
+            loadState: 1,
+            click: false
         })
+    };
+    loadError = () => {
+        this.setState({
+            loadState: 3,
+            click: false
+        });
     };
     _iosVideo = () => {
         return (
             <Video
-                ref='video'
                 source={{ uri: this.props.speakUrl }}
-                rate={this.state.rate}
-                volume={1.0}
-                paused={false}
                 repeat={false}
-                onLoad={this.loadSuccess}
-                onError={()=>console.log('load error!')}
+                onEnd={this.loadFinished}
+                onError={this.loadError}
             />
         );
     };
-    _androidVideo = () => {
-        return (
-            <Video
-                source={{ uri: this.props.speakUrl }}
-                rate={1.0}
-                volume={this.state.volume}
-                mute={this.state.mute}
-                paused={this.state.isPaused}
-                repeat={false}
-                onEnd={()=>{
-                    this.setState({
-                        isPaused: true
-                    })
-                }}
-                onLoad={this.loadSuccess}
-            />
-        );
-    };
-    renderVideo = () => {
-        if(Platform.OS === 'ios'){
-            return this._iosVideo();
-        }else{
-            return this._androidVideo();
+    renderImgBtn = () => {
+        const state = this.state.loadState;
+        if(state === 1 ){
+            //初始状态
+            return <ImgBtn url={happy} onPress={this.singHandle}/>;
+        }else if(state === 2){
+            //加载状态
+            return <ImgBtn url={loading}/>;
+        }else if(state === 3){
+            //加载失败
+            return <ImgBtn url={shutUp}/>;
         }
     };
     render(){
         return(
             <View>
                 {
-                    this.state.isLoading?
-                        <ImgBtn url={happy} onPress={this.singHandle}/>
-                        :<ImgBtn url={shutUp}/>
+                    this.renderImgBtn()
                 }
-                {this.renderVideo()}
+                {
+                    //点击后加载音频
+                    this.state.click ?
+                        this._iosVideo()
+                        :null
+                }
             </View>
         );
     }

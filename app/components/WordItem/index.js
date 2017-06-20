@@ -25,7 +25,7 @@ export default class WordItem extends React.PureComponent{
                     }
                     <Sep height={10}/>
                     <View style={{flexDirection: 'row'}}>
-                        <AudioBtnGroup speakUrl={result.speakUrl}/>
+                        <AudioBtnGroup speakUrl={result.speakUrl} Audio={this.props.Audio}/>
                         <Text style={{marginLeft: 10}}>{result.basic['uk-phonetic'] ? `英[${result.basic['uk-phonetic']}]` : ''}</Text>
                         <Text style={{marginLeft: 10}}>{result.basic['us-phonetic'] ? `美[${result.basic['us-phonetic']}]` : ''}</Text>
                     </View>

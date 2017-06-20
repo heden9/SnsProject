@@ -40,7 +40,6 @@ export default class TranslationPage extends React.PureComponent{
         result
             .then((res)=>res.json())
             .then((json)=>{
-                console.log(json);
                 const data = json;
                 this.setState({
                     result: data,
@@ -72,7 +71,7 @@ export default class TranslationPage extends React.PureComponent{
                     changeHandle={this.changeHandle}/>
                 <Sep/>
                 <ResultArea result={this.state.result} isLoading={this.state.isLoading} collectHandle={this.collectHandle} isCollected={!!UserInfo.localMyCollect.get(this.state.result.query)} />
-            </View>
+</View>
         );
     }
 }

@@ -20,7 +20,6 @@ export default TranslateNav = StackNavigator({
             },
             headerTitleStyle: {
                 fontWeight: '400',
-                alignSelf:'center'
             },
             headerBackTitle: null,
             gesturesEnabled: true,
@@ -37,7 +36,6 @@ export default TranslateNav = StackNavigator({
             },
             headerTitleStyle: {
                 fontWeight: '400',
-                alignSelf:'center'
             },
             gesturesEnabled: true,
         }

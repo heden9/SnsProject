@@ -13,6 +13,9 @@ class Store {
     //     console.log('prepare enter');
     //     this.wait = false;
     // }
+    @computed get collectLen(){
+        return this.localMyCollect.values().length;
+    }
     @action changeCollect(data, state){
         if(data == null)
             return;
