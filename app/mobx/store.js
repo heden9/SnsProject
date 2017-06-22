@@ -3,7 +3,7 @@ import { observable,action,computed } from 'mobx';
 class Store {
     @observable localMyCollect = new Map();
     @observable TabHeight = 50;
-    @observable UpdateFlag = false;
+    @observable user = null;
     // @observable wait = false;
     // @action modeScreen(){
     //     console.log('enter success');
@@ -13,6 +13,9 @@ class Store {
     //     console.log('prepare enter');
     //     this.wait = false;
     // }
+    @action login(data){
+        this.user = data;
+    }
     @computed get collectLen(){
         return this.localMyCollect.values().length;
     }
@@ -28,7 +31,6 @@ class Store {
             console.warn('err state!');
             return;
         }
-        this.UpdateFlag = !this.UpdateFlag;
         this.saveCollect();
     }
     @action loadCollect(data){

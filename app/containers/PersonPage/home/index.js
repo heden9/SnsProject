@@ -14,10 +14,17 @@ export default class PersonPage extends React.PureComponent{
         const {navigate} = this.props.navigation;
         navigate(str);
     };
+    LoginClickHandle = () => {
+        if(UserInfo.user == null){
+            this.enterHandle('Login');
+        }else{
+
+        }
+    };
     render() {
         return (
             <View style={styles.back}>
-                <LoginComponent onPress={() => this.enterHandle('Login')}/>
+                <LoginComponent onPress={this.LoginClickHandle} name={UserInfo.user && UserInfo.user.name}/>
                 <View>
                     <PersonBtn iconName={'bubbles'} title={'消息中心'} badge={1}  onPress={() =>this.enterHandle('Message')}/>
                     <Sep/>

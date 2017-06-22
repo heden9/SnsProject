@@ -5,10 +5,13 @@ import {
     TextInput,
     StyleSheet,
     Image,
+    Alert,
     TouchableHighlight
 } from 'react-native';
 import { observer } from 'mobx-react';
+import UserInfo from '../../../mobx/store';
 import LoginPng from '../../../static/img/login.png';
+import { login } from '../../../fetch/Login/login';
 @observer
 export default class LoginPage extends React.PureComponent{
     constructor(props, context){
@@ -27,10 +30,29 @@ export default class LoginPage extends React.PureComponent{
         if(!this.state.account || !this.state.password)
             alert('请输入账号密码');
         else{
-            setTimeout(()=>{
-                alert('登录成功\n'+this.state.password);
-                this.props.navigation.goBack();
-            },1000);
+            const result = login({name: this.state.account,pwd: this.state.password});
+            console.log(result);
+            result.then((res)=>res.json())
+                .then((json)=>{
+                if(json == null)
+                    return;
+                if(json == false)
+                    Alert.alert('账号或密码错误');
+                else{
+                    UserInfo.login(json);
+                    Alert.alert(
+                        '亲，登录成功！',
+                        '',
+                        [
+                            {text: 'OK', onPress: () => this.props.navigation.goBack()},
+                        ],
+                        { cancelable: false }
+                    );
+                }
+            })
+                .catch((err)=>{
+                    Alert.alert('网络超时TnT');
+            });
         }
     };
     render(){
