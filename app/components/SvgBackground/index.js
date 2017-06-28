@@ -2,17 +2,18 @@ import React from 'react';
 import {
     View
 } from 'react-native';
-import Svg,{
-    LinearGradient,
-    Stop,
-    Defs,
-    Rect
-} from 'react-native-svg';
+//import Svg,{
+//    LinearGradient,
+//    Stop,
+//    Defs,
+//    Rect
+//} from 'react-native-svg';
 export default class SvgBackground extends React.PureComponent {
     render(){
         return(
             <View style={{position: 'relative',height: this.props.style.height}}>
-                <Svg
+                {/*
+                  <Svg
                     height="150"
                     width={WindowInfo.width} style={{position: 'absolute',top: 0, left: 0}}>
                     <Defs>
@@ -27,7 +28,8 @@ export default class SvgBackground extends React.PureComponent {
                           width={WindowInfo.width}
                           height="150" fill="url(#grad)" />
 
-                </Svg>
+                </Svg>  
+                */}
                 <View style={this.props.style}>
                     {this.props.children}
                 </View>
